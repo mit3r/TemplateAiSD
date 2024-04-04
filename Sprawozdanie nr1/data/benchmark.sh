@@ -10,7 +10,7 @@ benchmark() {
     runjava=""
     runpython=""
     runcpp=""
-    runexample="python3 run.py"
+    runexample="timeout 10m python3 run.py"
     runcurrent=$runexample
 
     echo "Benchmarking Algorithm $algorithm with input $input_file"
@@ -54,6 +54,9 @@ for input_type in "${input_files[@]}"; do
     for algorithm_name in "${!algorithm_mapping[@]}"; do
         algorithm_number=${algorithm_mapping[$algorithm_name]}
         for input_file in "benchmark/${input_type}_"*".txt"; do
+            if [ input_file == "" ]; then
+                
+            fi
             benchmark $input_file $algorithm_number $input_type
         done
     done
