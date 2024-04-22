@@ -1,18 +1,8 @@
 import gc
+from tree import Tree
+from BSTNode import BSTNode
 
-if not gc.isenabled():
-    gc.enable()
-
-
-class BSTNode:
-    def __init__(self, value):
-        self.key = value
-        self.left = None
-        self.right = None
-        self.parent = None
-
-
-class BSTree:
+class BSTree(Tree):
 
     def __init__(self, arr: list[int]):
         self.base: list[int] = arr
@@ -33,41 +23,6 @@ class BSTree:
             node.right = self._insert(node.right, value)
             node.right.parent = node
         return node
-
-    def print_tree(self):
-        print("Pre order: ", end='')
-        print(self._get_pre_order_tree(self.root))
-        print("\nIn order: ", end='')
-        print(self._get_in_order_tree(self.root))
-        print("\nPost order: ", end='')
-        print(self._get_post_order_three(self.root))
-
-    def _get_pre_order_tree(self, node: BSTNode, arr: list[int] | bool = None, first: bool = True) -> list[int]:
-        if first:
-            arr = [] if arr is None else arr
-        if node is not None:
-            arr.append(node.key)
-            self._get_pre_order_tree(node.left, arr, first=False)
-            self._get_pre_order_tree(node.right, arr, first=False)
-        return arr
-
-    def _get_in_order_tree(self, node: BSTNode, arr: list[int] | bool = None, first: bool = True) -> list[int]:
-        if first:
-            arr = [] if arr is None else arr
-        if node is not None:
-            self._get_pre_order_tree(node.left, arr, first=False)
-            arr.append(node.key)
-            self._get_pre_order_tree(node.right, arr, first=False)
-        return arr
-
-    def _get_post_order_three(self, node: BSTNode, arr: list[int] | bool = None, first: bool = True) -> list[int]:
-        if first:
-            arr = [] if arr is None else arr
-        if node is not None:
-            self._get_pre_order_tree(node.left, arr, first=False)
-            self._get_pre_order_tree(node.right, arr, first=False)
-            arr.append(node.key)
-        return arr
 
     def find_min(self) -> int:
         node: BSTNode = self.root
@@ -146,16 +101,22 @@ class BSTree:
 
     @staticmethod
     def rotate_left(node):
-        pass
-
+        if node is None or node.right is None:
+            return node
+        right_node = node.right  # 4
+        node.right = right_node.left  # 3
+        right_node.left = node
+        return right_node
 
     def dsw_balance(self):
         self.root = self._make_vine(self.root)
         in_order = self._get_in_order_tree(self.root)[1::2]
+        in_order = in_order[::-1]
         self.display()
         print(in_order)
         for i in in_order:
             self.root = self.rotate_left(self.find_node(i))
+            self.display()
 
     def _make_vine(self, node):
         if node is None:
@@ -166,6 +127,9 @@ class BSTree:
         return node
 
     def display(self):
+        if self.root is None:
+            print('Tree is empty')
+            return
         lines, *_ = self._display_aux(self.root)
         for line in lines:
             print(line)
@@ -215,13 +179,13 @@ class BSTree:
         lines = [first_line, second_line] + [a + key_length * ' ' + b for a, b in zipped_lines]
         return lines, n + m + key_length, max(p, q) + 2, n + key_length // 2
 
+
 if __name__ == '__main__':
     tree = BSTree([8, 2, 5, 14, 10, 12, 13, 2222, 9])
     tree.print_tree()
     print('\n')
     tree.display()
 
-    tree.delete_nodes([8, 2, 5, 14, 10, 12, 13, 2222, 9])
+    # tree.delete_nodes([8, 2, 5, 14, 10, 12, 13, 2222, 9])
     tree.dsw_balance()
     tree.display()
-    tree.print_tree()
