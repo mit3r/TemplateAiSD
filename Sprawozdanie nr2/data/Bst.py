@@ -146,7 +146,7 @@ class BSTree:
 
     @staticmethod
     def rotate_left(node):
-
+        pass
 
 
     def dsw_balance(self):
