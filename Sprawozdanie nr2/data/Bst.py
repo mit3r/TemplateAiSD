@@ -221,7 +221,7 @@ if __name__ == '__main__':
     print('\n')
     tree.display()
 
-    # tree.delete_nodes([8, 2, 5, 14, 10, 12, 13, 2222, 9])
+    tree.delete_nodes([8, 2, 5, 14, 10, 12, 13, 2222, 9])
     tree.dsw_balance()
     tree.display()
     tree.print_tree()
