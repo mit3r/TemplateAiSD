@@ -53,13 +53,13 @@ if __name__ == '__main__':
             tree.display()
 
         elif command == 'export':
-            tree.export_tree()
+            print(tree.export_tree())
 
         elif command == 'rebalance':
             tree.balance()
             tree.display()
             if tree.__class__.__name__ == 'BST':
-                print("Tree has been rebalanced using DSW algorithm. Converting to AVL tree...")
+                print("Tree has been rebalanced using DSW algorithm. Converting to AVL Object...")
                 tree = AVL(input_data=tree.root, build=False, obj=tree.root)
 
 

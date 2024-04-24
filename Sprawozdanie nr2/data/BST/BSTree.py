@@ -11,7 +11,6 @@ class BST(Tree):
         super().__init__(input_data)
         self.create(self.base)
 
-
     def create(self, elements: list[int]) -> None:
         """Create a binary search tree from a list of elements."""
         for value in elements:

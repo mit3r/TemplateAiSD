@@ -44,7 +44,7 @@ class Tree(Printer, Finder, Rotator):
         for key in key_arr:
             self.root = self._delete_node(self.root, key)
 
-    def _delete_node(self, node: 'BSTNodeType | AVLNodeType | None', key: int) -> 'BSTNodeType | AVLNodeType | None':
+    def _delete_node(self, node: 'BSTNodeType | AVLNodeType | None', key: int) -> BSTNodeType | AVLNodeType | None:
         if node is None:
             return node
 
@@ -72,10 +72,20 @@ class Tree(Printer, Finder, Rotator):
         self.delete_all_tree(node.left, first=False)
         self.delete_all_tree(node.right, first=False)
         print(node.key, end=' ')
-        self.root = self.delete_node(self.root, node.key)
+        self.root = self._delete_node(self.root, node.key)
         gc.collect()
 
-    def _sort_keys_and_median(self, arr: list[int]) -> tuple[list[int], int | float | None]:
+    def _sort_keys_and_median(self, arr: list[int]) -> tuple[list[int], int]:
         """Sort keys and return median of the array."""
         arr = sorted(arr)
         return arr, self._find_median(arr)
+
+    def export_tree(self):
+        return f"\\node {{{self._export(self.root)}}};"
+
+    def _export(self, node):
+        if not node.left and not node.right:
+            return f"node {{{node.key}}}"
+        l_str = f"child {self._export(node.left)}" if node.left else "child[missing]"
+        r_str = f"child {self._export(node.right)}" if node.right else "child[missing]"
+        return f"node {{{node.key}}} {l_str} {r_str}"

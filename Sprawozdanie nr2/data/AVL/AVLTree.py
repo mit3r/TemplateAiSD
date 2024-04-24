@@ -1,3 +1,4 @@
+from AVLNode import AVLNode
 from .AVLNode import AVLNode
 from tree.tree import Tree
 from src.nodeTypes import BSTNodeType, AVLNodeType
@@ -7,11 +8,11 @@ class AVL(Tree):
     def __init__(self, input_data: str, build: bool = True, obj: BSTNodeType | None = None):
         if build:
             super().__init__(input_data)
-            self.create()
+            self.root=self.create(sorted(self.base))
         elif not build and obj is not None:
             self.base = []
             self.root: AVLNodeType | None = self.convert_bst_to_avl(obj=obj)
-            self.calculate_height()
+            self._calculate_height()
             self.display()
 
     def convert_bst_to_avl(self, obj: BSTNodeType) -> AVLNode | None:
@@ -24,21 +25,22 @@ class AVL(Tree):
         node.right = self.convert_bst_to_avl(obj=obj.right)
         return node
 
-    def create(self):
-        pass
+    def create(self, data: list[int] = None) -> AVLNode | None:
+        if not data:
+            return None
+        mid = len(data) // 2
+        node = AVLNode(data[mid])
+        node.left = self.create(data[:mid])
+        node.right = self.create(data[mid + 1:])
+        self._calculate_height(node)
+        return node
 
     def balance(self):
         """Balance tree using DSW algorithm."""
         self.dsw_balance()
 
-    def calculate_height(self):
-        """Calculate height of the tree."""
-        self.root.height = self._calculate_height(self.root)
-
-    def _calculate_height(self, node):
+    def _calculate_height(self, node: AVLNodeType | None = None) -> int:
         """Calculate height of the node recursively. """
         if node is None:
             return -1
         return 1 + max(self._calculate_height(node.left), self._calculate_height(node.right))
-
-

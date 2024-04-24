@@ -37,11 +37,16 @@ class Finder:
         return None
 
     @staticmethod
-    def _find_median(arr):
+    def _find_median(arr: list[int]) -> int:
         """Return median of the array."""
         if len(arr) % 2 == 0:
             return arr[len(arr) // 2]
         else:
-            return (arr[len(arr) // 2] + arr[len(arr) // 2 + 1]) / 2
+            return (arr[len(arr) // 2] + arr[len(arr) // 2 + 1]) // 2
 
+    def _get_height(self, node: BSTNodeType | AVLNodeType | None) -> int:
+        """Get height of the node."""
+        if node is None:
+            return -1
+        return node.height
 
