@@ -1,10 +1,8 @@
 import gc
-# from AVLNode import AVLNode
-# from BSTNode import BSTNode
-from Printer import Printer
-from nodeTypes import AVLNodeType, BSTNodeType
-from Finder import Finder
-from Rotator import Rotator
+from .Printer import Printer
+from src.nodeTypes import AVLNodeType, BSTNodeType
+from .Finder import Finder
+from .Rotator import Rotator
 
 
 def input_to_arr(input_str: str) -> list[int]:
@@ -16,6 +14,13 @@ class Tree(Printer, Finder, Rotator):
     def __init__(self, input_data: str):
         self.base: list[int] = input_to_arr(input_data)
         self.root: BSTNodeType | AVLNodeType | None = None
+        self._print_stat()
+
+    def _print_stat(self) -> None:
+        """Print sorted keys and median of the array."""
+        stat = self._sort_keys_and_median(self.base)
+        print(f"Sorted: {stat[0]}")
+        print(f"key median: {stat[1]}")
 
     def dsw_balance(self):
         """ Balance tree using DSW algorithm.
@@ -34,8 +39,9 @@ class Tree(Printer, Finder, Rotator):
         self.display()
         print(self._get_pre_order_tree(self.root))
 
-    def delete_nodes(self, key_arr: list[int]):
+    def delete_nodes(self, input_data: str):
         """Delete nodes from the tree."""
+        key_arr = input_to_arr(input_data)
         for key in key_arr:
             self.root = self.delete_node(self.root, key)
 
@@ -69,3 +75,8 @@ class Tree(Printer, Finder, Rotator):
         print(node.key, end=' ')
         self.root = self.delete_node(self.root, node.key)
         gc.collect()
+
+    def _sort_keys_and_median(self, arr: list[int]) -> tuple[list[int], int | float | None]:
+        """Sort keys and return median of the array."""
+        arr = sorted(arr)
+        return arr, self._find_median(arr)

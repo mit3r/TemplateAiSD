@@ -1,4 +1,4 @@
-from nodeTypes import BSTNodeType, AVLNodeType
+from src.nodeTypes import BSTNodeType, AVLNodeType
 
 
 class Finder:
@@ -35,4 +35,13 @@ class Finder:
             else:
                 node: BSTNodeType = node.left
         return None
+
+    @staticmethod
+    def _find_median(arr):
+        """Return median of the array."""
+        if len(arr) % 2 == 0:
+            return arr[len(arr) // 2]
+        else:
+            return (arr[len(arr) // 2] + arr[len(arr) // 2 + 1]) / 2
+
 

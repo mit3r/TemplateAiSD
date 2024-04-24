@@ -1,6 +1,6 @@
-from AVLNode import AVLNode
-from tree import Tree
-from nodeTypes import BSTNodeType, AVLNodeType
+from .AVLNode import AVLNode
+from tree.tree import Tree
+from src.nodeTypes import BSTNodeType, AVLNodeType
 
 
 class AVL(Tree):
@@ -35,15 +35,4 @@ class AVL(Tree):
             return -1
         return 1 + max(self._calculate_height(node.left), self._calculate_height(node.right))
 
-    @staticmethod
-    def _get_median(arr):
-        """Return median of the array."""
-        if len(arr) % 2 == 0:
-            return arr[len(arr) // 2]
-        else:
-            return (arr[len(arr) // 2] + arr[len(arr) // 2 + 1]) / 2
 
-
-if __name__ == '__main__':
-    avl = AVL("10, 5, 2, 8, 13, 12, 14")
-    avl.print_tree(avl.root)

@@ -1,4 +1,4 @@
-from nodeTypes import BSTNodeType, AVLNodeType
+from src.nodeTypes import BSTNodeType, AVLNodeType
 
 
 class Rotator:
