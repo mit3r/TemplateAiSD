@@ -7,7 +7,7 @@ import gc
 if not gc.isenabled():
     gc.enable()
 
-commands = ("help", 'print', 'remove', 'delete', 'export', 'rebalance', 'exit')
+commands = ("help", 'print', 'remove', 'delete', 'export', 'rebalance', 'display', 'exit')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Demonstration of AVL and BST trees.")
@@ -17,7 +17,7 @@ if __name__ == '__main__':
     print(args)
     if args.tree_type == 'avl':
         # tree = AVL(input_data=input(insert))
-        tree = AVL(input_data=input(insert))
+        tree = AVL(input_data="2,1,5,3,10,14,123")
     elif args.tree_type == 'bst':
         # tree = BST(input_data=input(insert))
         tree = BST(input_data="2,1,5,3,10,14,123")
@@ -58,12 +58,17 @@ if __name__ == '__main__':
         elif command == 'rebalance':
             tree.balance()
             tree.display()
+            if tree.__class__.__name__ == 'BST':
+                print("Tree has been rebalanced using DSW algorithm. Converting to AVL tree...")
+                tree = AVL(input_data=tree.root, build=False, obj=tree.root)
+
+
+        elif command == 'display':
+            tree.display()
+
 
         elif command == 'exit':
             exit(0)
         else:
             print("Invalid command.")
             continue
-
-
-        

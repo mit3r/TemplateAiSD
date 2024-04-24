@@ -18,11 +18,11 @@ class Tree(Printer, Finder, Rotator):
 
     def _print_stat(self) -> None:
         """Print sorted keys and median of the array."""
-        stat = self._sort_keys_and_median(self.base)
+        stat: tuple[list[int], int] = self._sort_keys_and_median(self.base)
         print(f"Sorted: {stat[0]}")
         print(f"key median: {stat[1]}")
 
-    def dsw_balance(self):
+    def dsw_balance(self) -> None:
         """ Balance tree using DSW algorithm.
         1. Create vine
         2. Get in order
@@ -30,39 +30,38 @@ class Tree(Printer, Finder, Rotator):
         4. Display
         """
         self.root = self._make_vine(self.root)
-        in_order = self._get_in_order_tree(self.root)
+        in_order: list[int] = self._get_in_order_tree(self.root)
 
         for i in in_order[::2]:
             self.rotate_left_by_key(i)
 
         self.rotate_left_by_key(in_order[1])
         self.display()
-        print(self._get_pre_order_tree(self.root))
 
-    def delete_nodes(self, input_data: str):
+    def delete_nodes(self, input_data: str) -> None:
         """Delete nodes from the tree."""
-        key_arr = input_to_arr(input_data)
+        key_arr: list[int] = input_to_arr(input_data)
         for key in key_arr:
-            self.root = self.delete_node(self.root, key)
+            self.root = self._delete_node(self.root, key)
 
-    def delete_node(self, node, key):
+    def _delete_node(self, node: 'BSTNodeType | AVLNodeType | None', key: int) -> 'BSTNodeType | AVLNodeType | None':
         if node is None:
             return node
 
         if key < node.key:
-            node.left = self.delete_node(node.left, key)
+            node.left = self._delete_node(node.left, key)
         elif key > node.key:
-            node.right = self.delete_node(node.right, key)
+            node.right = self._delete_node(node.right, key)
         else:
             if node.left is None:
                 return node.right
             elif node.right is None:
                 return node.left
-            node.key = self.find_min(self.root)
-            node.right = self.delete_node(node.right, node.key)
+            node.key = self.find_min(node.right)
+            node.right = self._delete_node(node.right, node.key)
         return node
 
-    def delete_all_tree(self, node: BSTNodeType, first=True):
+    def delete_all_tree(self, node: BSTNodeType | AVLNodeType, first=True):
         if first:
             print("Deleting all tree: ", end='')
             node = self.root

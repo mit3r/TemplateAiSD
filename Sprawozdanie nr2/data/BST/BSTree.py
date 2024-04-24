@@ -32,14 +32,4 @@ class BST(Tree):
     def balance(self):
         """Balance tree using DSW algorithm."""
         self.dsw_balance()
-        print(self.__class__.__name__)
 
-
-if __name__ == '__main__':
-    tree = BST("8, 2, 5, 14, 10, 12, 13")
-    tree.print_tree(tree.root)
-    print('\n')
-    tree.display()
-    # tree.delete_nodes([8, 2, 5, 14, 10, 12, 13, 2222, 9])
-    tree.balance()
-    tree.display()
