@@ -37,18 +37,19 @@ class Tree(Printer, Finder, Rotator):
             self.rotate_left_by_key(i)
 
         for i in in_order[1::2]:
-
             if abs((self._calculate_height(self.root.left)) - (self._calculate_height(self.root.right) + 1)) <= 1:
                 self.display()
                 break
             self.rotate_left_by_key(i)
-
 
     def delete_nodes(self, input_data: str) -> None:
         """Delete nodes from the tree."""
         key_arr: list[int] = input_to_arr(input_data)
         for key in key_arr:
             self.root = self._delete_node(self.root, key)
+        if self.__class__.__name__ == 'AVL':
+            self.dsw_balance()
+            print("Tree has been rebalanced using DSW algorithm")
 
     def _delete_node(self, node: 'BSTNodeType | AVLNodeType | None', key: int) -> BSTNodeType | AVLNodeType | None:
         if node is None:
@@ -91,8 +92,6 @@ class Tree(Printer, Finder, Rotator):
         if node is None:
             return -1
         return 1 + max(self._calculate_height(node.left), self._calculate_height(node.right))
-
-
 
     def export_tree(self):
         return f"\\node {{{self._export(self.root)}}};"

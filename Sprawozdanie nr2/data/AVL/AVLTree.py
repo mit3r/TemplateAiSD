@@ -8,7 +8,7 @@ class AVL(Tree):
     def __init__(self, input_data: str, build: bool = True, obj: BSTNodeType | None = None):
         if build:
             super().__init__(input_data)
-            self.root=self.create(sorted(self.base))
+            self.root = self.create(sorted(self.base))
         elif not build and obj is not None:
             self.base = []
             self.root: AVLNodeType | None = self.convert_bst_to_avl(obj=obj)
@@ -39,8 +39,3 @@ class AVL(Tree):
         """Balance tree using DSW algorithm."""
         self.dsw_balance()
 
-    def _calculate_height(self, node: AVLNodeType | None = None) -> int:
-        """Calculate height of the node recursively. """
-        if node is None:
-            return -1
-        return 1 + max(self._calculate_height(node.left), self._calculate_height(node.right))

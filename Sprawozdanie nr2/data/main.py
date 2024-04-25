@@ -44,11 +44,11 @@ if __name__ == '__main__':
         elif command == 'print':
             tree.print_tree(tree.root)
 
-        elif command == 'remove':
+        elif command == 'delete':
             tree.delete_nodes(input(remove))
             tree.display()
 
-        elif command == 'delete':
+        elif command == 'delete all':
             tree.delete_all_tree(tree.root)
             tree.display()
 
@@ -62,10 +62,8 @@ if __name__ == '__main__':
                 print("Tree has been rebalanced using DSW algorithm. Converting to AVL Object...")
                 tree = AVL(input_data=tree.root, build=False, obj=tree.root)
 
-
         elif command == 'display':
             tree.display()
-
 
         elif command == 'exit':
             exit(0)
