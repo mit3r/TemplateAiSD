@@ -3,7 +3,7 @@ from src.nodeTypes import BSTNodeType, AVLNodeType
 
 class Finder:
     @staticmethod
-    def find_min(node) -> int:
+    def find_min(node: AVLNodeType| BSTNodeType) -> int:
         """Find minimum value in the tree."""
         temp: int = node.key
         while node.left is not None:
@@ -15,7 +15,8 @@ class Finder:
         return temp
 
     @staticmethod
-    def find_max(node) -> int:
+    def find_max(node: AVLNodeType | BSTNodeType) -> int:
+        """Find maximum value in the tree."""
         temp: int = node.key
         while node.right is not None:
             if node.key > temp:
@@ -27,6 +28,7 @@ class Finder:
 
     @staticmethod
     def find_node_by_key(node: BSTNodeType | AVLNodeType, key: int) -> BSTNodeType | None:
+        """Find node by key."""
         while node is not None:
             if node.key == key:
                 return node
@@ -44,7 +46,8 @@ class Finder:
         else:
             return (arr[len(arr) // 2] + arr[len(arr) // 2 + 1]) // 2
 
-    def _get_height(self, node:AVLNodeType | None) -> int:
+    @staticmethod
+    def _get_height(node: AVLNodeType | None) -> int:
         """Get height of the node."""
         if node is None:
             return -1

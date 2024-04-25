@@ -1,0 +1,25 @@
+\documentclass{article}
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning}
+\begin{document}
+\begin{tikzpicture}
+[ every node/.style={circle,draw,minimum size=10mm, font=\Large, inner sep=1mm, fill=red, text=white}, level/.style={sibling distance=50mm/#1}, level 2/.style={sibling distance=30mm}, level 3/.style={sibling distance=20mm}, thick ]  \node { 2 }
+    child {   \node { 1 }
+ }
+    child {   \node { 5 }
+    child {   \node { 3 }
+ }
+    child {   \node { 10 }
+    child {   \node { 14 }
+    child {   \node { 12 }
+ }
+    child {   \node { 123 }
+    child {   \node { 33 }
+ }
+ }
+ }
+ }
+ }
+;
+\end{tikzpicture}
+\end{document}

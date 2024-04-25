@@ -3,6 +3,9 @@ from .Printer import Printer
 from src.nodeTypes import AVLNodeType, BSTNodeType
 from .Finder import Finder
 from .Rotator import Rotator
+import os
+current_directory = os.path.dirname(os.path.abspath(__file__))
+txt_file_path = os.path.join(current_directory, 'tree.tex')
 
 
 def input_to_arr(input_str: str) -> list[int]:
@@ -38,7 +41,6 @@ class Tree(Printer, Finder, Rotator):
 
         for i in in_order[1::2]:
             if abs((self._calculate_height(self.root.left)) - (self._calculate_height(self.root.right) + 1)) <= 1:
-                self.display()
                 break
             self.rotate_left_by_key(i)
 
@@ -52,6 +54,7 @@ class Tree(Printer, Finder, Rotator):
             print("Tree has been rebalanced using DSW algorithm")
 
     def _delete_node(self, node: 'BSTNodeType | AVLNodeType | None', key: int) -> BSTNodeType | AVLNodeType | None:
+        """Delete node by key."""
         if node is None:
             return node
 
@@ -69,6 +72,7 @@ class Tree(Printer, Finder, Rotator):
         return node
 
     def delete_all_tree(self, node: BSTNodeType | AVLNodeType, first=True):
+        """Delete all nodes by post order."""
         if first:
             print("Deleting all tree: ", end='')
             node = self.root
@@ -94,11 +98,26 @@ class Tree(Printer, Finder, Rotator):
         return 1 + max(self._calculate_height(node.left), self._calculate_height(node.right))
 
     def export_tree(self):
-        return f"\\node {{{self._export(self.root)}}};"
+        self.latex_code = ("\\documentclass{article}\n\\usepackage{tikz}\n\\usetikzlibrary{shapes,"
+                           "positioning}\n\\begin{document}\n\\begin{tikzpicture}\n")
+        self.latex_code += ("[ every node/.style={circle,draw,minimum size=10mm, font=\Large, inner sep=1mm, "
+                            "fill=red, text=white}, "
+                            "level/.style={sibling distance=50mm/#1}, level 2/.style={sibling distance=30mm}, "
+                            "level 3/.style={sibling distance=20mm}, thick ]")
 
-    def _export(self, node):
-        if not node.left and not node.right:
-            return f"node {{{node.key}}}"
-        l_str = f"child {self._export(node.left)}" if node.left else "child[missing]"
-        r_str = f"child {self._export(node.right)}" if node.right else "child[missing]"
-        return f"node {{{node.key}}} {l_str} {r_str}"
+        self._traverse(self.root)
+        self.latex_code += ";\n\\end{tikzpicture}\n\\end{document}"
+        with open(txt_file_path, "w") as file:
+            file.write(self.latex_code)
+
+    def _traverse(self, node):
+        if node is not None:
+            self.latex_code += f"  \\node {{ {node.key} }}\n"
+            if node.left is not None:
+                self.latex_code += "    child { "
+                self._traverse(node.left)
+                self.latex_code += " }\n"
+            if node.right is not None:
+                self.latex_code += "    child { "
+                self._traverse(node.right)
+                self.latex_code += " }\n"

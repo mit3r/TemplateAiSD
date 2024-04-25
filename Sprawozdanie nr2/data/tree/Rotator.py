@@ -30,7 +30,7 @@ class Rotator:
         """Rotate left by key"""
         self.root = self._rotate_left_by_key(self.root, key)
 
-    def _rotate_left_by_key(self, node, key):
+    def _rotate_left_by_key(self, node: AVLNodeType | BSTNodeType | None, key: int):
         """Rotate left by key recursively"""
         if node is None:
             return None

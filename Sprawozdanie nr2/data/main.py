@@ -7,7 +7,7 @@ import gc
 if not gc.isenabled():
     gc.enable()
 
-commands = ("help", 'print', 'remove', 'delete', 'export', 'rebalance', 'display', 'exit')
+commands = ("help", 'print', 'remove', 'delete', 'delete all', 'export', 'rebalance', 'display', 'exit')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Demonstration of AVL and BST trees.")
