@@ -44,7 +44,7 @@ class Finder:
         else:
             return (arr[len(arr) // 2] + arr[len(arr) // 2 + 1]) // 2
 
-    def _get_height(self, node: BSTNodeType | AVLNodeType | None) -> int:
+    def _get_height(self, node:AVLNodeType | None) -> int:
         """Get height of the node."""
         if node is None:
             return -1

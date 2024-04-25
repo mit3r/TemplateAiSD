@@ -31,12 +31,18 @@ class Tree(Printer, Finder, Rotator):
         """
         self.root = self._make_vine(self.root)
         in_order: list[int] = self._get_in_order_tree(self.root)
-
+        print(in_order[::2])
+        print(in_order[1::2])
         for i in in_order[::2]:
             self.rotate_left_by_key(i)
 
-        self.rotate_left_by_key(in_order[1])
-        self.display()
+        for i in in_order[1::2]:
+
+            if abs((self._calculate_height(self.root.left)) - (self._calculate_height(self.root.right) + 1)) <= 1:
+                self.display()
+                break
+            self.rotate_left_by_key(i)
+
 
     def delete_nodes(self, input_data: str) -> None:
         """Delete nodes from the tree."""
@@ -79,6 +85,14 @@ class Tree(Printer, Finder, Rotator):
         """Sort keys and return median of the array."""
         arr = sorted(arr)
         return arr, self._find_median(arr)
+
+    def _calculate_height(self, node: BSTNodeType | AVLNodeType | None = None) -> int:
+        """Calculate height of the node recursively. """
+        if node is None:
+            return -1
+        return 1 + max(self._calculate_height(node.left), self._calculate_height(node.right))
+
+
 
     def export_tree(self):
         return f"\\node {{{self._export(self.root)}}};"
