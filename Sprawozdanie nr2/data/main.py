@@ -16,11 +16,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args)
     if args.tree_type == 'avl':
-        # tree = AVL(input_data=input(insert))
-        tree = AVL(input_data="2,1,5,3,10,14,123,22,33,44,55,66,77,88")
+        tree = AVL(input_data=input(insert))
+        # tree = AVL(input_data="2,1,5,3,10,14,123,22,33,44,55,66,77,88")
     elif args.tree_type == 'bst':
-        # tree = BST(input_data=input(insert))
-        tree = BST(input_data="2,1,5,3,10,14,123,12,33")
+        tree = BST(input_data=input(insert))
+        # tree = BST(input_data="2,1,5,3,10,14,123,12,33")
 
     else:
         print("Please specify tree type.")

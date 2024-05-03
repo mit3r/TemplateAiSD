@@ -32,7 +32,7 @@ def main():
     if not os.path.exists("benchmark_data/degenerated_trees"):
         os.mkdir("benchmark_data/degenerated_trees")
 
-    for i in range(1, 16):
+    for i in range(1, 18):
         generate_random_data(i)
         generate_degenerated_trees_data(i)
 

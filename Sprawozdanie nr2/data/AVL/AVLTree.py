@@ -1,4 +1,3 @@
-from AVLNode import AVLNode
 from .AVLNode import AVLNode
 from tree.tree import Tree
 from src.nodeTypes import BSTNodeType, AVLNodeType
