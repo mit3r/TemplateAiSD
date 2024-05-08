@@ -10,10 +10,9 @@ class List_graph(Graph):
 
     def __str__(self) -> str:
         s = ""
-
         width = int(math.log10(len(self.succes_list))) + 1
         for vert, succesors in enumerate(self.succes_list):
-            s += f"{vert:>{width}}: {sorted(succesors)}\n"
+            s += f"{vert+1:>{width}}: {[succ+1 for succ in sorted(succesors)]}\n"
 
         return s
 

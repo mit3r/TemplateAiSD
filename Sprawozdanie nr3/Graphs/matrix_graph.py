@@ -16,33 +16,19 @@ class Matrix_graph(Graph):
                 self.matrix[vert][succesor] = True
 
     def __str__(self) -> str:
-        s = ""
+        s = "\n"
         width = len(self.matrix)
         num = int(math.log10(width)) + 1
 
         s += " "*num + " | " 
-        s += " ".join(map(str, list(range(width)))) + "\n"
+        s += " ".join([f"{x+1:>{num}} " for x in list(range(width))]) + "\n"
 
         s += "-"*(num+1) + "+"
-        spaces = 0
-        for n in range(width):
-            if n % 10 == 0:
-                spaces += 1
-
-            s += "-"*(spaces+1)
-
-        s += "\n"
+        s += "-"*(width*(num+2)) + "\n"
 
         for i, row in enumerate(self.matrix):
-
-            s += f"{i:>{num}} | "
-
-            spaces = 0
-            for j, n in enumerate(row):
-                if j % 10**spaces == 0:
-                    spaces += 1
-
-                s += f"{n:>{spaces}} "
+            s += f"{i+1:>{num}} | "
+            s += " ".join([f"{n:>{num}} " for n in row])
             s += "\n"
         
         return s

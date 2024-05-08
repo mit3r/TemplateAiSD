@@ -38,7 +38,7 @@ class Graph:
                 v = stack.pop()
 
                 for succesor in sorted(self.get_successors(v)):
-                    if not visited[succesor]:
+                    if not visited[succesor]: 
                         visited[succesor] = True
                         stack.append(succesor)
 
@@ -55,7 +55,7 @@ class Graph:
             
             visited[v] = True
             explored.append(v)
-            for succesor in self.get_successors(v):
+            for succesor in sorted(self.get_successors(v)):
                 if not visited[succesor]:
                     DFS(succesor, visited)
         

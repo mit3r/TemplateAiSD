@@ -20,7 +20,7 @@ class Table_graph(Graph):
         width = int(math.log10(len(self.vertecies))) + 1
 
         return "".join(
-            [f"{begin:>{width}} -> {end:>{width}}\n" for begin, end in self.edges]
+            [f"{begin+1:>{width}} -> {end+1:>{width}}\n" for begin, end in self.edges]
         )
         
     def get_vertices(self) -> list[int]:
