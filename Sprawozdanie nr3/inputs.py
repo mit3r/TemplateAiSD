@@ -1,46 +1,13 @@
 from Graphs import List_graph, Matrix_graph, Table_graph
 
 from typing import Union
-from toolz import pipe
+from utils import input_digit, input_nodes, input_successors, input_type, matrix2succesors
 
+import numpy as np
+import networkx as nx
 import random
 
-def input_type() -> str:
-    graph_type = input("{:>5}>".format("type"))
-
-    if(graph_type not in ["list", "matrix", "table"]):
-        print("Invalid input type. Please choose from list, matrix, table")
-        exit(1)
-
-    return graph_type
-
-def input_nodes() -> int:
-    graph_nodes = input("{:>5}>".format("nodes"))
-
-    if(not graph_nodes.isdigit()):
-        print("Invalid input. Please provide a number")
-        exit(1)
-    
-    return int(graph_nodes)
-
-def input_successors(n: int) -> list[list[int]]:
-
-    graph_successors = [[] for _ in range(n)]
-
-    for i in range(n):
-        graph_successors[i] = pipe(
-            input("{:>5}>".format(i+1)),
-            lambda x: x.replace(",", " "),
-            lambda x: x.split(),
-            lambda l: [int(x)-1 for x in l if x.isdigit()]
-        )
-
-        for x in graph_successors[i]:
-            if(x < 0 or x >= n):
-                print(f"Invalid input. Successor is {x+1} but there are only {n} nodes.")
-                exit(1)
-    
-    return graph_successors
+import math
 
 def collect_user_provided() -> Union[List_graph, Matrix_graph, Table_graph]:
     graph_type = input_type()
@@ -53,25 +20,22 @@ def collect_user_provided() -> Union[List_graph, Matrix_graph, Table_graph]:
         "table": Table_graph
     }[graph_type](graph_successors)
 
-def input_digit(prompt: str) -> int:
-    while True:
-        try:
-            return int(input(prompt)) - 1
-        except ValueError:
-            print("Please, enter a digit")
 
-def collect_generated() -> Union[List_graph, Matrix_graph, Table_graph]:
+def collect_generated(graph_type=None, graph_nodes=None, saturation=None) -> Union[List_graph, Matrix_graph, Table_graph]:
 
-    graph_type = input_type()
-    graph_nodes = input_nodes()
+    if graph_type is None:
+        graph_type = input_type()
+    if graph_nodes is None:
+        graph_nodes = input_nodes()
 
-    saturation = 0
-    while True:
+    while True and saturation is None:
         saturation = input_digit("saturation 0-100>")
         if saturation < 0 or saturation > 100:
             print("Please, enter a number between 0 and 100")
         else:
             break
+
+    saturation /= 100
 
     # Generacja grafu - W przypadku uruchomienia programu z argumentem ‘–generate‘. Wygeneruj
     # spójny skierowany graf acykliczny o nodes wierzchołkach oraz nasyceniu saturation. O wartości
@@ -79,30 +43,36 @@ def collect_generated() -> Union[List_graph, Matrix_graph, Table_graph]:
     # Najłatwiej jest utworzyć graf acykliczny skierowany poprzez wypełnienie odpowiednią liczbą jedynek
     # górnego trójkąta macierzy sąsiedztwa.
 
-
     m = [[0 for _ in range(graph_nodes)] for _ in range(graph_nodes)]
 
-    percent = int(100 / saturation)
-    shift = random.randint(0, graph_nodes-1)
+    # sum of edges in upper triangle (suma n początkowych wyrazów ciągu arytmetycznego)
+    #  0  1  2  3  4
+    #  5  6  7  8
+    #  9 10 11
+    # 12 13
+    # 14
 
-    for i in range(graph_nodes):
+    all_edges = int((graph_nodes-1)*graph_nodes / 2)
+    target_edges = math.ceil(saturation * all_edges)
+
+    edges = list(range(int(all_edges)))
+    random.shuffle(edges)
+
+    edges = sorted(edges[:int(target_edges)])
+
+
+    # fill upper triangle
+    for i in range(graph_nodes+1):
         for j in range(i+1, graph_nodes):
-            # index of first in line
-            fst = (graph_nodes*2 - i + 1) * i // 2
-            index = fst+j-i # unique for each cell
 
-            if((index+shift) % percent == 0):
+            index = (graph_nodes - i + 2)*i // 2 + j - 1
+
+            if index in edges:
                 m[i][j] = 1
     
-    succ_list = [[] for _ in range(graph_nodes)]
-    for i in range(graph_nodes):
-        for j in range(graph_nodes):
-            if m[i][j] == 1:
-                succ_list[i].append(j)
-
     return {
         "list": List_graph,
         "matrix": Matrix_graph,
         "table": Table_graph
-    }[graph_type](succ_list)
-    
+    }[graph_type](matrix2succesors(m))
+

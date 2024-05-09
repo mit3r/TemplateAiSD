@@ -14,9 +14,9 @@ c = sys.argv[1]
 
 graph: Union[List_graph, Matrix_graph, Table_graph] = None
 match c:
-    case '-user-provided':
+    case '-user-provided' | '-u':
         graph = collect_user_provided()
-    case '-generate':
+    case '-generate' | '-g':
         graph = collect_generated()
 
     case _:

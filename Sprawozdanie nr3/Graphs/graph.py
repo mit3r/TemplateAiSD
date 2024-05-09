@@ -78,7 +78,7 @@ class Graph:
                     v = i
                     break
             else:
-                return None
+                raise Exception("Cycle detected")
 
             removed[v] = True
             sorted_list.append(v)
@@ -94,11 +94,14 @@ class Graph:
         explored = []
         
         def visit(v):
+            if colors[v] == GRAY:
+                raise Exception("Cycle detected")
+
             colors[v] = GRAY
 
             while True:
                 for succesor in self.get_successors(v):
-                    if colors[succesor] == WHITE:
+                    if colors[succesor] != BLACK:
                         visit(succesor)
                         break
                 else:
@@ -115,7 +118,6 @@ class Graph:
                     break
 
         return explored[::-1]
-
 
 
 
