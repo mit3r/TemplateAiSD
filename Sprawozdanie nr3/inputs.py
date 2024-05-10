@@ -28,10 +28,11 @@ def collect_generated(graph_type=None, graph_nodes=None, saturation=None) -> Uni
     if graph_nodes is None:
         graph_nodes = input_nodes()
 
-    while True and saturation is None:
+    while True and saturation == None:
         saturation = input_digit("saturation 0-100>")
         if saturation < 0 or saturation > 100:
             print("Please, enter a number between 0 and 100")
+            saturation = None
         else:
             break
 
