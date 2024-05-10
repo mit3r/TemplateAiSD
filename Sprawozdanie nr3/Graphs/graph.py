@@ -121,7 +121,7 @@ class Graph:
         return explored[::-1]
 
     def export_to_latex(self):
-        output = "\\begin{tikzpicture}[ every node/.style={circle,draw,minimum size=10mm, font=\Large, inner sep=1mm, text=white,  fill=violet}, level/.style={sibling distance=50mm/#1}, level 2/.style={sibling distance=30mm}, level 3/.style={sibling distance=20mm}, thick,>=stealth, ->, line width=3.5pt,shorten >=5pt]\n"
+        output = "\\documentclass{article}\n\\usepackage{tikz}\n\\usetikzlibrary{shapes,positioning}\n\\begin{document}\n\\begin{tikzpicture}[ every node/.style={circle,draw,minimum size=10mm, font=\Large, inner sep=1mm, text=white,  fill=red}, level/.style={sibling distance=50mm/#1}, level 2/.style={sibling distance=30mm}, level 3/.style={sibling distance=20mm}, thick,>=stealth, ->, line width=3.5pt,shorten >=5pt]\n"
         num_vertices = len(self.get_vertices())
         angle_step = 360 / num_vertices
         for i in range(0, num_vertices):
@@ -132,6 +132,6 @@ class Graph:
             source, destination = edge
             output += f"\\draw (v{source}) -> (v{destination});\n"
 
-        output += "\\end{tikzpicture}\n"
+        output += "\\end{tikzpicture}\n\\end{document}"
 
         return output
