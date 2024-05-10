@@ -1,6 +1,5 @@
 import sys
 from typing import Union
-from toolz import pipe
 
 from inputs import collect_generated, collect_user_provided
 from Graphs import List_graph, Matrix_graph, Table_graph
@@ -28,11 +27,7 @@ print("Graph is created. Type 'help' to see available actions.")
 while True:
 
     try:
-        action = pipe(
-            input("action>"),
-            lambda x: x.strip(),
-            lambda x: x.lower()
-        )
+        action = input("action>").strip().lower()
     except EOFError:
         exit(0)
 
