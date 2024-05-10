@@ -1,14 +1,8 @@
-Run cell
 
-#%%
-from Graphs import List_graph, Matrix_graph, Table_graph
-
-import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 
-from Graphs import Matrix_graph
 from inputs import collect_generated
 
 graph = collect_generated('matrix', 20, 20)
@@ -23,5 +17,3 @@ plt.title("Directed Acyclic Graph (DAG)")
 plt.show()
 
 graph.sort_Kahn()
-
-# %%

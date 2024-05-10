@@ -1,5 +1,6 @@
 import math
 
+
 class Graph:
 
     def get_vertices(self) -> list[int]:
@@ -31,42 +32,42 @@ class Graph:
         while not all(visited):
             stack = [min([i for i, x in enumerate(visited) if not x])]
             visited[stack[0]] = True
-            
+
             explored.append(stack[0])
 
             while len(stack) > 0:
                 v = stack.pop()
 
                 for succesor in sorted(self.get_successors(v)):
-                    if not visited[succesor]: 
+                    if not visited[succesor]:
                         visited[succesor] = True
                         stack.append(succesor)
 
                         explored.append(succesor)
-        
+
         return explored
-    
+
     def depth_first_search(self) -> list[int]:
         explored = []
 
         def DFS(v, visited):
             if visited[v]:
                 return
-            
+
             visited[v] = True
             explored.append(v)
             for succesor in sorted(self.get_successors(v)):
                 if not visited[succesor]:
                     DFS(succesor, visited)
-        
+
         visited = [False] * len(self.get_vertices())
         for vert in sorted(self.get_vertices()):
             DFS(vert, visited)
-        
+
         return explored
-        
+
     def sort_Kahn(self) -> list[int]:
-        
+
         sorted_list = []
         removed = [False] * len(self.get_vertices())
         in_degree = [len(self.get_predecessors(v)) for v in self.get_vertices()]
@@ -84,15 +85,15 @@ class Graph:
             sorted_list.append(v)
             for succesor in self.get_successors(v):
                 in_degree[succesor] -= 1
-        
+
         return sorted_list
-    
+
     def sort_Tarjan(self) -> list[int]:
         WHITE, GRAY, BLACK = 0, 1, 2
 
         colors = [WHITE] * len(self.get_vertices())
         explored = []
-        
+
         def visit(v):
             if colors[v] == GRAY:
                 raise Exception("Cycle detected")
@@ -109,7 +110,7 @@ class Graph:
 
             colors[v] = BLACK
             explored.append(v)
-        
+
         while not all([color == BLACK for color in colors]):
 
             for i in range(len(colors)):
@@ -119,6 +120,26 @@ class Graph:
 
         return explored[::-1]
 
+    def export_to_latex(self, layout='circle'):
+        output = "\\begin{tikzpicture}[ every node/.style={circle,draw,minimum size=10mm, font=\Large, inner sep=1mm, text=white,  fill=violet}, level/.style={sibling distance=50mm/#1}, level 2/.style={sibling distance=30mm}, level 3/.style={sibling distance=20mm}, thick,>=stealth, ->, line width=3.5pt,shorten >=5pt]\n"
+        num_vertices = len(self.get_vertices())
+        if layout == 'circle':
+            angle_step = 360 / num_vertices
+            for i in range(1, num_vertices + 1):
+                angle = (i - 1) * angle_step
+                output += f"\\node (v{i}) at ({angle}:6cm) {{{i}}};\n"
+        elif layout == 'grid':
+            rows = int(num_vertices ** 0.5) + 1
+            for i in range(1, num_vertices + 1):
+                x = (i - 1) % rows
+                y = (i - 1) // rows
+                output += f"\\node (v{i}) at ({x}, {y}) {{{i}}};\n"
 
+        for edge in self.get_edges():
+            source, destination = edge
+            output += f"\\draw (v{source}) -> (v{destination});\n"
 
+        output += "\\end{tikzpicture}\n"
+
+        return output
 

@@ -12,7 +12,7 @@ if len(sys.argv) != 2:
 
 c = sys.argv[1]
 
-graph: Union[List_graph, Matrix_graph, Table_graph] = None
+graph: Union[List_graph, Matrix_graph, Table_graph] | None = None
 match c:
     case '-user-provided' | '-u':
         graph = collect_user_provided()
@@ -22,7 +22,6 @@ match c:
     case _:
         print("There is no such option")
         exit(1)
-
 
 print("Graph is created. Type 'help' to see available actions.")
 while True:
@@ -55,3 +54,5 @@ while True:
             actions.ActionKahn(graph)
         case 'tarjan':
             actions.ActionTarjan(graph)
+        case 'export':
+            actions.ActionExport(graph)
