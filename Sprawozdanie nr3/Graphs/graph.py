@@ -139,6 +139,7 @@ class Graph:
             source, destination = edge
             output += f"\\draw (v{source}) -> (v{destination});\n"
 
+
         output += "\\end{tikzpicture}\n"
 
         return output
