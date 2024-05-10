@@ -124,7 +124,7 @@ class Graph:
         output = "\\begin{tikzpicture}[ every node/.style={circle,draw,minimum size=10mm, font=\Large, inner sep=1mm, text=white,  fill=violet}, level/.style={sibling distance=50mm/#1}, level 2/.style={sibling distance=30mm}, level 3/.style={sibling distance=20mm}, thick,>=stealth, ->, line width=3.5pt,shorten >=5pt]\n"
         num_vertices = len(self.get_vertices())
         angle_step = 360 / num_vertices
-        for i in range(1, num_vertices + 1):
+        for i in range(0, num_vertices):
             angle = (i - 1) * angle_step
             output += f"\\node (v{i}) at ({angle}:6cm) {{{i}}};\n"
 

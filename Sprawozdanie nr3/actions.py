@@ -67,4 +67,8 @@ def ActionTarjan(graph: Union[List_graph, Matrix_graph, Table_graph]):
 
 
 def ActionExport(graph: Union[List_graph, Matrix_graph, Table_graph]):
-    print(graph.export_to_latex())
+    code = graph.export_to_latex()
+
+    with open("exported_graph.tex", "w") as f:
+        f.write(code)
+    print(code)
