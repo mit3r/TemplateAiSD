@@ -21,7 +21,6 @@ class MainGraph(HamiltonianGraph, EulerianGraph, GraphWithExport):
         """Creates a Hamiltonian graph with the specified saturation."""
         graph = self.create_hamiltonian_cycle()
         graph = self.add_edges_to_meet_saturation(graph, self.n, saturation)
-        self.ensure_even_degree(graph, n)
         self.edges = graph
         for u, v in graph:
             self.graph[u].append(v)

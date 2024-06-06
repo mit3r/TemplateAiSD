@@ -3,6 +3,7 @@ from base_graph import BaseGraph
 
 class EulerianGraph(BaseGraph):
     def find_eulerian_cycle(self) -> Optional[List[int]]:
+        """Finds an Eulerian cycle in the graph."""
         for i in self.graph:
             if len(self.graph[i]) % 2 != 0:
                 return None

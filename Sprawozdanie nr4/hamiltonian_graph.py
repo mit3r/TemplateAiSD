@@ -5,11 +5,14 @@ from base_graph import BaseGraph
 
 class HamiltonianGraph(BaseGraph):
     def create_hamiltonian_cycle(self) -> List[tuple[int, int]]:
+        """Creates a Hamiltonian cycle."""
         vertices = list(range(self.n))
         random.shuffle(vertices)
         return [(vertices[i], vertices[(i + 1) % self.n]) for i in range(self.n)]
 
-    def add_edges_to_meet_saturation(self, graph, n, saturation):
+    def add_edges_to_meet_saturation(self, graph: List[tuple[int, int]], n: int, saturation: int) -> List[
+        tuple[int, int]]:
+        """Adds edges to the graph to meet the saturation."""
         num_edges = int(saturation * n * (n - 1) / 200)
         existing_edges = set(graph)
         while len(existing_edges) < num_edges:
@@ -21,22 +24,16 @@ class HamiltonianGraph(BaseGraph):
                 existing_edges.add((v, u))
         return graph
 
-    def ensure_even_degree(self, graph, n):
-        degree = [0] * n
-        for u, v in graph:
-            degree[u] += 1
-            degree[v] += 1
-
-        for i in range(n):
-            if degree[i] % 2 != 0:
-                for j in range(n):
-                    if i != j and (i, j) not in graph and (j, i) not in graph:
-                        graph.append((i, j))
-                        degree[i] += 1
-                        degree[j] += 1
-                        break
-
     def find_hamiltonian_cycle(self) -> Optional[List[int]]:
+        """Finds a Hamiltonian cycle in the graph."""
+        licznik = 0
+        for i in self.graph:
+            node = []
+            if len(self.graph[i]) % 2 != 0:
+                licznik += 1
+                node.append(i)
+        if licznik > 2:
+            return None
         path = [-1] * self.n
         path[0] = 0
 
@@ -48,6 +45,7 @@ class HamiltonianGraph(BaseGraph):
             return True
 
         def hamiltonian_cycle_util(pos: int) -> bool:
+            """Utility function to find a Hamiltonian cycle."""
             if pos == self.n:
                 return path[0] in self.graph[path[pos - 1]]
             for v in range(self.n):
