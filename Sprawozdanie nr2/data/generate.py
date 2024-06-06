@@ -22,6 +22,15 @@ def generate_degenerated_trees_data(n):
             f.write(str(i) + "\n")
             f.write(str(2**n - int(i)) + "\n")
 
+def generate_vine_data(n):
+    filename = f"benchmark_data/vine/{2 ** n}_vine_elements.txt"
+    print(filename)
+    with open(filename, "w", encoding='utf-8') as f:
+        for i in range(1, 2 ** n):
+            f.write(str(i) + "\n")
+            f.write(str(i + 1) + "\n")
+
+
 
 def main():
     if not os.path.exists("benchmark_data"):
@@ -32,9 +41,13 @@ def main():
     if not os.path.exists("benchmark_data/degenerated_trees"):
         os.mkdir("benchmark_data/degenerated_trees")
 
-    for i in range(1, 18):
-        generate_random_data(i)
-        generate_degenerated_trees_data(i)
+    if not os.path.exists("benchmark_data/vine"):
+        os.mkdir("benchmark_data/vine")
+
+    for i in range(1, 20):
+        # generate_random_data(i)
+        # generate_degenerated_trees_data(i)
+        generate_vine_data(i)
 
 
 if __name__ == '__main__':
