@@ -159,8 +159,7 @@ class Graph:
             return False
 
         if ham_cycle_util(1):
-            return path + [path[0]]  # Returning the cycle including the return to the start vertex
+            return path + [path[0]]
         else:
             return None
 
-# Example usage
