@@ -42,15 +42,15 @@ while True:
             print("  euler - Find Eulerian cycle")
             print("  hamilton - Find Hamiltonian cycle")
             print("  exit - Exit the program")
-        case 'print':
+        case 'print' | 'p':
             print(graph.pretty_print_graph())
-        case 'latex':
+        case 'latex' | 'l':
             latex_code = graph.export_to_latex()
             print(latex_code)
-        case 'euler':
+        case 'euler' | 'e':
             eulerian_cycle = graph.find_eulerian_cycle()
             print("Eulerian Cycle:", eulerian_cycle if eulerian_cycle else "No Eulerian cycle found")
-        case 'hamilton':
+        case 'hamilton' | 'h':
             hamiltonian_cycle = graph.find_hamiltonian_cycle()
             print("Hamiltonian Cycle:", hamiltonian_cycle if hamiltonian_cycle else "No Hamiltonian cycle found")
         case 'exit':
