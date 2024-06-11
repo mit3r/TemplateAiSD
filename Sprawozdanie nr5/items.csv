@@ -1,0 +1,7 @@
+Name       ;Value ;Weight
+Myszka     ;   10 ;   0.1
+Klawiatura ;   20 ;   0.5
+Monitor    ;  100 ;   3
+Procesor   ;  500 ;   0.1
+Pamięć RAM ;  200 ;   0.1
+
