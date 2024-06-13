@@ -118,11 +118,11 @@ class Backpack():
         res: list[Item] = []
         match method:
             case "force":
-                res = self.pack_by_brute_force(weightLimit);
+                res = self.pack_by_brute_force(weightLimit)
             case "dynamic":
-                res = self.pack_by_dynamic_algorithm(weightLimit);
+                res = self.pack_by_dynamic_algorithm(weightLimit)
             case _:
-                raise ValueError("Invalid method");
+                raise ValueError("Invalid method")
             
         print("Backpack content:")
         self.print_items(res)
